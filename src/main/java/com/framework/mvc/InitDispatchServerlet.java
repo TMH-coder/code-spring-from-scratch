@@ -117,6 +117,7 @@ public class InitDispatchServerlet implements TServerlet {
     private void doDispatch(THttpResquest resquest, THttpResponse response) throws Exception {
         UrlPattenMapping hander = getHander(resquest);
         if(hander == null){
+            log.debug("the hander is null \r\n return 404");
             proccessResult(resquest,response,new ModelAndView("404"));
             return;
         }
@@ -133,7 +134,8 @@ public class InitDispatchServerlet implements TServerlet {
 
     private UrlPattenMapping getHander(THttpResquest resquest) {
         String url=resquest.getUrl().matches("^/(\\?)?(.*)" ) ? "/index.html":resquest.getUrl();
-        if(urlPattenList.isEmpty()){return  null;}
+        log.debug("url is "+url);
+        if(urlPattenList.isEmpty()){log.debug("urlPattenList.isEmpty"); return  null;}
         for(UrlPattenMapping urlMapping : urlPattenList){
             Matcher matcher = urlMapping.getPattern().matcher(url);
             if(matcher.matches()){

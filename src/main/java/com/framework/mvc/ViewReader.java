@@ -16,6 +16,7 @@ public class ViewReader {
     }
     View doRead(String viewName){
         if(viewName==null || "".equals(viewName)){
+            log.debug("view is invalid");
             return null;
         }
         viewName = viewName.endsWith(DefaultSuffix)? viewName : viewName+DefaultSuffix;

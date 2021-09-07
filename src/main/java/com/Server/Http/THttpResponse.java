@@ -11,6 +11,7 @@ import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.util.CharsetUtil;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.RandomAccessFile;
@@ -18,6 +19,7 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.CharsetEncoder;
 
+@Slf4j
 public class THttpResponse {
     private ChannelHandlerContext ctx;
     private FullHttpResponse response;
@@ -45,6 +47,7 @@ public class THttpResponse {
     public void write(File file) {
         try {
             if(file == null || file.length() ==0) {
+                log.debug("the file is invalid");
                 return;
             }
 
@@ -53,7 +56,7 @@ public class THttpResponse {
             MappedByteBuffer buffer = readChannel.map(FileChannel.MapMode.READ_ONLY,0,readChannel.size());
             ByteBuf buf = Unpooled.wrappedBuffer(buffer);
             response.content().writeBytes(buf);
-            System.out.println(Tutil.converByteBufToString(response.content())) ;
+            log.debug("the response's content is \r\n"+Tutil.converByteBufToString(response.content()));
             ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
         }catch (Exception e){
             e.printStackTrace();

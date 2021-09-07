@@ -46,7 +46,7 @@ public class TmhServer {
                 });
         try {
             ChannelFuture f = serverBootstrap.bind(port).sync();
-            System.out.println("服务器已启动在："+port+"端口");
+            log.info("服务器已启动在："+port+"端口");
             f.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();

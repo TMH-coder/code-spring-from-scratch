@@ -32,8 +32,10 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
         THttpResponse response = new THttpResponse(channelHandlerContext, new DefaultFullHttpResponse(fullHttpRequest.protocolVersion(),HttpResponseStatus.OK));
 
         if(fullHttpRequest.method() == HttpMethod.GET){
+            log.info("receive HTTP get");
             serverlet.doGet(channelHandlerContext,request,response);
         }else if(fullHttpRequest.method() == HttpMethod.POST){
+            log.info("receive HTTP post");
             serverlet.doPost(channelHandlerContext,request,response);
         }
         channelHandlerContext.close();
